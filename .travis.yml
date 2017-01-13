@@ -7,7 +7,7 @@ env:
       VM_DIR: /vagrant
 
 before_install:
-  - docker pull ubuntu
+  - docker pull ubuntu:16.04
   - tmpfile=$(mktemp)
   - docker run --detach --add-host "${HOSTNAME}$(echo -e "\t")${MACHINE_NAME}":127.0.0.1 --volume="${PWD}":${VM_DIR}/:rw --privileged ubuntu:16.04 "/sbin/init" > "${tmpfile}"
   - CONTAINER_ID=$(cat ${tmpfile})
