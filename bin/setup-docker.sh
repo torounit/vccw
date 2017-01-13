@@ -9,9 +9,17 @@ apt-get update
 apt-get install -y --no-install-recommends ansible ruby curl sudo
 apt-get clean
 
-groupadd -g 1000 ubuntu
-useradd -g ubuntu -G sudo -m -s /bin/bash ubuntu
-echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+set +e
+
+getent passwd ubuntu  > /dev/null
+
+if [ $? -ne 0 ]; then
+  groupadd -g 1000 ubuntu
+  useradd -g ubuntu -G sudo -m -s /bin/bash ubuntu
+  echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+fi
+
+set -e
 
 cat << EOS > /home/ubuntu/hosts
 [default]
