@@ -6,7 +6,7 @@ apt-get update -y
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:ansible/ansible
 apt-get update
-apt-get install -y --no-install-recommends ansible ruby
+apt-get install -y --no-install-recommends ansible ruby curl
 apt-get clean
 
 cat << EOS > hosts
