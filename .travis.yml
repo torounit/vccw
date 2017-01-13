@@ -17,7 +17,8 @@ before_install:
   - CONTAINER_ID=$(cat ${tmpfile})
   - docker inspect $CONTAINER_ID
   - echo "[default]\nlocalhost" > hosts
-  - ruby -ryaml -rjson -e "puts JSON.generate({:vccw =>YAML.load(STDIN.read)});" < provision/default.yml > test.json
+  - ruby -ryaml -rjson -e "conf = {:vccw =>YAML.load(STDIN.read)}; conf[:vccw][:vagrant_dir] = \"${VM_DIR}\"; puts JSON.generate(conf);" < provision/default.yml > test.json
+  - cat test.json | jq .
 
 script:
   - ls -al
