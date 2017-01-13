@@ -22,5 +22,5 @@ before_install:
   - cat test.yml
 
 script:
-  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json"
+  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json" –connection=local
   - ls -al
