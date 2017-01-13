@@ -14,13 +14,9 @@ cat << EOS > /home/ubuntu/hosts
 localhost
 EOS
 
-getent passwd ubuntu > /dev/null
-
-if [ $? -ne 0 ]; then
-  groupadd -g 1000 ubuntu
-  useradd -g ubuntu -G sudo -m -s /bin/bash ubuntu
-  echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-fi
+groupadd -g 1000 ubuntu
+useradd -g ubuntu -G sudo -m -s /bin/bash ubuntu
+echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 ruby -ryaml -rjson -e "conf = {:vccw =>YAML.load(STDIN.read)}; conf[:vccw][:vagrant_dir] = \"/vagrant\"; puts JSON.generate(conf);" < /vagrant/provision/default.yml > /home/ubuntu/test.json
 curl https://raw.githubusercontent.com/vccw-team/vccw-xenial64/master/provision/playbook.yml > /home/ubuntu/middleware.yaml
