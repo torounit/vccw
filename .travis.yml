@@ -16,7 +16,8 @@ before_install:
   - docker run --detach --add-host "${HOSTNAME}$(echo -e "\t")${MACHINE_NAME}":127.0.0.1 --volume="${PWD}":${VM_DIR}/:rw --privileged geerlingguy/docker-${DISTRO}-ansible:latest "/sbin/init" > "${tmpfile}"
   - CONTAINER_ID=$(cat ${tmpfile})
   - docker inspect $CONTAINER_ID
-  - echo "[default]\nlocalhost" > hosts
+  - echo "[default]" > hosts
+  - echo "localhost" >> hosts
   - ruby -ryaml -e "conf = {:vccw =>YAML.load(STDIN.read)}; conf[:vccw][:vagrant_dir] = \"${VM_DIR}\"; puts YAML.dump(conf);" < provision/default.yml > test.yml
   - cat test.yml
 
