@@ -22,7 +22,9 @@
       host: "%"
       state: present
 
-  - file:
+  - name: "Change owner of the {{ path }}"
+    become: yes
+    file:
       path: "{{ path }}"
       state: directory
       owner: "{{ user }}"
