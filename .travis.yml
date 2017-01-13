@@ -23,5 +23,5 @@ script:
   - docker exec --tty ${CONTAINER_ID} ansible-playbook --version
   - docker exec --tty ${CONTAINER_ID} ls -alF ${VM_DIR}
   - docker exec --tty ${CONTAINER_ID} pwd
-  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json" -connection=local -vvv
+  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json" --connection=local -vvv
   - ls -al
