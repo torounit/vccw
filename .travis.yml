@@ -9,8 +9,6 @@ env:
       DISTRO: ubuntu1604
 
 before_install:
-  # Pull container.
-  - ansible-playbook --version
   - docker pull geerlingguy/docker-${DISTRO}-ansible:latest
   - bundle install --path vendor/bundler
   - tmpfile=$(mktemp)
@@ -23,5 +21,6 @@ before_install:
   - cat test.yml
 
 script:
+  - docker exec --tty ${CONTAINER_ID} ansible-playbook --version
   - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json" –connection=local
   - ls -al
