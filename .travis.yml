@@ -11,13 +11,7 @@ before_install:
   - tmpfile=$(mktemp)
   - docker run --detach --add-host "${HOSTNAME}$(echo -e "\t")${MACHINE_NAME}":127.0.0.1 --volume="${PWD}":${VM_DIR}/:rw --privileged ubuntu:16.04 "/sbin/init" > "${tmpfile}"
   - CONTAINER_ID=$(cat ${tmpfile})
-  - echo "[default]" > hosts
-  - echo "localhost" >> hosts
-  - ruby -ryaml -rjson -e "conf = {:vccw =>YAML.load(STDIN.read)}; conf[:vccw][:vagrant_dir] = \"${VM_DIR}\"; puts JSON.generate(conf);" < provision/default.yml > test.json
-  - curl https://raw.githubusercontent.com/vccw-team/vccw-xenial64/master/provision/playbook.yml > middleware.yaml
-  - docker exec --tty ${CONTAINER_ID} add-apt-repository -y ppa:ansible/ansible
-  - docker exec --tty ${CONTAINER_ID} apt-get update
-  - docker exec --tty ${CONTAINER_ID} apt-get install -y --no-install-recommends ansible && rm -rf /var/lib/apt/lists/* && rm -Rf /usr/share/doc && rm -Rf /usr/share/man && apt-get clean
+  - docker exec --tty ${CONTAINER_ID} bash ${VM_DIR}/bin/setup-docker.sh
 
 script:
   - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/middleware.yaml -i ${VM_DIR}/hosts --connection=local
