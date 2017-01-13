@@ -1,0 +1,17 @@
+services: docker
+
+env:
+  global:
+    - HOSTNAME: vccw.dev
+      MACHINE_NAME: vccw
+      IP: 192.168.33.10
+      VM_DIR: /vagrant
+      DISTRO: ubuntu1604
+
+before_install:
+  # Pull container.
+  - docker pull geerlingguy/docker-${DISTRO}-ansible:latest
+  - bundle install --path vendor/bundler
+  - tmpfile=$(mktemp)
+  - docker run --detach --add-host "${HOSTNAME}$(echo -e "\t")${MACHINE_NAME}":127.0.0.1 --volume="${PWD}":${VM_DIR}/:rw --privileged geerlingguy/docker-${DISTRO}-ansible:latest "/sbin/init" > "${tmpfile}"
+  - container_id=$(cat ${tmpfile})
