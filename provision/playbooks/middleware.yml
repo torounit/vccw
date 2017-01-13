@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars:
+    user: "{{ ansible_env.USER | default( 'ubuntu' ) }}"
 
   tasks:
 
@@ -38,7 +40,7 @@
       replace:
         dest: /etc/apache2/envvars
         regexp: APACHE_RUN_USER=.*
-        replace: "APACHE_RUN_USER={{ ansible_env.USER }}"
+        replace: "APACHE_RUN_USER={{ user }}"
       notify:
         - restart apache
 
@@ -47,7 +49,7 @@
       replace:
         dest: /etc/apache2/envvars
         regexp: APACHE_RUN_GROUP=.*
-        replace: "APACHE_RUN_GROUP={{ ansible_env.USER }}"
+        replace: "APACHE_RUN_GROUP={{ user }}"
       notify:
         - restart apache
 
