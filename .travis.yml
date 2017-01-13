@@ -15,10 +15,9 @@ before_install:
   - echo "localhost" >> hosts
   - ruby -ryaml -rjson -e "conf = {:vccw =>YAML.load(STDIN.read)}; conf[:vccw][:vagrant_dir] = \"${VM_DIR}\"; puts JSON.generate(conf);" < provision/default.yml > test.json
   - curl https://raw.githubusercontent.com/vccw-team/vccw-xenial64/master/provision/playbook.yml > middleware.yaml
-  - docker exec --tty ${CONTAINER_ID} sudo apt-get install software-properties-common
-  - docker exec --tty ${CONTAINER_ID} sudo apt-add-repository ppa:ansible/ansible
-  - docker exec --tty ${CONTAINER_ID} sudo apt-get update
-  - docker exec --tty ${CONTAINER_ID} sudo apt-get install ansible
+  - docker exec --tty ${CONTAINER_ID} add-apt-repository -y ppa:ansible/ansible
+  - docker exec --tty ${CONTAINER_ID} apt-get update
+  - docker exec --tty ${CONTAINER_ID} apt-get install -y --no-install-recommends ansible && rm -rf /var/lib/apt/lists/* && rm -Rf /usr/share/doc && rm -Rf /usr/share/man && apt-get clean
 
 script:
   - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/middleware.yaml -i ${VM_DIR}/hosts --connection=local
