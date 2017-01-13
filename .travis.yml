@@ -21,4 +21,5 @@ before_install:
   - cat test.json | jq .
 
 script:
+  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${DRUPALVM_DIR}/provision/playbook.yml -i ${DRUPALVM_DIR}/hosts -e "@${DRUPALVM_DIR}/test.json"
   - ls -al
