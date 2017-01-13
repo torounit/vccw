@@ -10,6 +10,7 @@ env:
 
 before_install:
   # Pull container.
+  - ansible-playbook --version
   - docker pull geerlingguy/docker-${DISTRO}-ansible:latest
   - bundle install --path vendor/bundler
   - tmpfile=$(mktemp)
