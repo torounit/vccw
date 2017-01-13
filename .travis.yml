@@ -14,7 +14,7 @@ before_install:
   - bundle install --path vendor/bundler
   - tmpfile=$(mktemp)
   - docker run --detach --add-host "${HOSTNAME}$(echo -e "\t")${MACHINE_NAME}":127.0.0.1 --volume="${PWD}":${VM_DIR}/:rw --privileged geerlingguy/docker-${DISTRO}-ansible:latest "/sbin/init" > "${tmpfile}"
-  - $CONTAINER_ID=$(cat ${tmpfile})
+  - CONTAINER_ID=$(cat ${tmpfile})
   - docker inspect $CONTAINER_ID
   - echo "[default]\nlocalhost" > hosts
   - ruby -ryaml -rjson -e "puts JSON.generate({:vccw =>YAML.load(STDIN.read)});" < provision/default.yml > test.json
