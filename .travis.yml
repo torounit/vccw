@@ -20,6 +20,6 @@ before_install:
   - curl https://raw.githubusercontent.com/vccw-team/vccw-xenial64/master/provision/playbook.yml > middleware.yaml
 
 script:
-  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/middleware.yaml -i ${VM_DIR}/hosts --connection=local -vvv
-  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json" --connection=local -vvv
+  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/middleware.yaml -i ${VM_DIR}/hosts --connection=local
+  - docker exec --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i ${VM_DIR}/hosts -e "@${VM_DIR}/test.json" --connection=local
   - ls -al
