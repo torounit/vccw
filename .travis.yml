@@ -16,6 +16,6 @@ before_install:
 before_script:
   - docker exec --user ubuntu --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook /home/ubuntu/middleware.yaml -i /home/ubuntu/hosts --connection=local
   - docker exec --user ubuntu --tty ${CONTAINER_ID} env TERM=xterm ansible-playbook ${VM_DIR}/provision/playbook.yml -i /home/ubuntu/hosts -e "@/home/ubuntu/test.json" --connection=local
-  - docker exec --user ubuntu --tty ${CONTAINER_ID} env TERM=xterm bundle install --path=vendor/bundle
+  - docker exec --user ubuntu --tty ${CONTAINER_ID} env TERM=xterm bundle install
 script:
   - docker exec --user ubuntu --tty ${CONTAINER_ID} env TERM=xterm bundle exec rake spec
